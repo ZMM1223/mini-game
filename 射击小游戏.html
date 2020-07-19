@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html">
+    <title>Document</title>    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: #ccc;
+        }
+
+        #range {
+            position: absolute;
+            left: 0;
+            top: 30px;
+            background: url(chufang.png);
+            background-size: cover;
+            cursor: url("favicon (12).ico"),auto;
+            width: 100%;
+            height: 720px;
+        }
+
+        #img1 {
+            position: absolute;
+            border: none;
+            left: 0;
+            top: 100px;
+            padding: 45px;
+        }
+
+        #score {
+            color: white;
+            padding-top: 50px;
+        }
+		
+		
+    </style>
+</head>
+
+
+<body onselectstart ='return false' >
+
+<script>
+    var myVar = setInterval(function(){ setColor() }, 1000);
+ 
+    function setColor() {
+      var x = document.body;
+      x.style.backgroundColor = x.style.backgroundColor == "lightskyblue" ? "pink" : "lightskyblue";
+    }
+</script>
+
+<marquee scrollamount= "10" width=100% behavior=alternate> 
+<span style="font-size:20px">啦啦啦打不到我吧~</span><!--<img src="图片/嚯哟.jpg" alt="嚯哟~" draggable="false"></span>-->
+</marquee> 
+	<div id="range">
+        <div id="score"></div>
+        <img src="cangying.png" alt="我是苍蝇，来打我" id="img1" draggable="false" name="randimg">
+    </div>
+    <div id="ttt"></div><br>
+
+<div style="position:fixed;bottom: 0;right: 0;">
+    <audio id="mi" controls autoplay>
+     <source src="背景音乐.mp3">
+    </audio>
+    <audio id="i1" preload="metadata">
+    <source src="得分.mp3">
+    </audio>
+</div>
+
+    <script type="text/javascript">
+	    var seconds = 20;
+	    var handle;
+	    setTimeout("startTimer()",0);
+	    function startTimer(){
+	    handle = setInterval("timer()",1000);
+	}
+	    function timer(){
+	    seconds -=1;
+	    document.all.ttt.innerHTML = "剩余时间<font color='red'>" + seconds + "</font> 秒";
+	    if (seconds == 0){
+	    stopTimer();
+	    document.reTranForm.submit();
+	    }
+	}
+	    function stopTimer(){
+	    clearInterval(handle);
+	    seconds >= 20;
+	    document.all.ttt.innerHTML = "时间到，游戏结束";
+        alert("时间到！您的最终得分为："+score+"分");
+        location.reload();
+	}
+    </script>
+
+    <script>
+	    var el = null;
+        var score = 0; // 得分：射中的次数
+        var shots = 0; // 总的射击数
+        var time = 1000; // 间隔时间
+		function changePostion () {    //进行位置随机变换的函数
+            //改变div的坐标
+            var divTag = document.getElementById("img1");
+            var x=Math.random()*(1500-100);
+            var y=Math.random()*(800-300);
+            divTag.style.left=x+"px";
+            divTag.style.top= y+"px";
+            divTag.onclick = function(){
+       
+            img1.src = 'cangying2.png';
+            score++;
+            document.getElementById("i1").play();
+        }
+        img1.src = 'cangying.png';
+        }
+        setInterval("changePostion()",time);
+	
+        function scoreUp() {
+            score++;
+			}
+
+        function scoreboard() {
+            document.querySelector("#score").innerHTML = "Shots:<font color='blue'>" + shots + " <font color='white'> Score:<font color='red'>" + score;
+			if (shots - score > 3){
+			document.querySelector("#score").innerHTML = "游戏结束";
+            alert("哦豁！您的最终得分为："+score+"分");
+            location.reload();
+			}
+        }
+  
+
+        window.onload = function () {
+            el = document.querySelector("#img1")
+
+            // 当图片上检测到鼠标点击时，就会调用函数scoreUp()，增加用户得分。
+            el.onclick = scoreUp;
+			
+            // 通过鼠标点击实现射击，在range范围内，鼠标指针会变成苍蝇拍
+            document.querySelector("#range").onclick = function () {
+                shots++;
+                scoreboard();
+            }
+            scoreboard()
+            el.style.left = "50px"
+            moveIt();
+}
+    </script>
+
+</body>
+
+</html>
